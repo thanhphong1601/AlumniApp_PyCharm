@@ -25,7 +25,7 @@ import requests
 class LoginView(APIView):
 
     def post(self, request, *args, **kwargs):
-        authenticate_url = 'http://192.168.1.8:3000/o/token/'
+        authenticate_url = 'http://192.168.1.9:3000/o/token/'
         username = request.data.get('username')
         password = request.data.get('password')
         role = int(request.data.get('role'))
@@ -106,7 +106,7 @@ class UserViewSet(viewsets.ViewSet,
     def get_permissions(self):
         if self.action == "forget_password":
             return [permissions.AllowAny()]
-        if self.action in ['change_password', 'destroy', 'list_friends', "add_posts"]:
+        if self.action in ['change_password','destroy', 'list_friends', "add_posts"]:
             return [perms.IsOwner()]
         if self.action in ['add_surveys', 'add_invitations']:
             return [permissions.IsAdminUser()]
@@ -132,13 +132,30 @@ class UserViewSet(viewsets.ViewSet,
     @action(methods=['post'], url_path='change_password', detail=True)
     def change_password(self, request, pk):
         password_serializer = serializers.PasswordSerializer(data=request.data)
+        # pdb.set_trace()
         if password_serializer.is_valid():
-            if not request.user.check_password(password_serializer.old_password):
+            if not request.user.check_password(password_serializer.data.get('old_password')):
                 return Response({'message': 'Incorrect old password'}, status=status.HTTP_400_BAD_REQUEST)
             # set new password
-            request.user.set_password(password_serializer.new_password)
+            request.user.set_password(password_serializer.data.get('new_password'))
             request.user.save()
-        return Response(status=status.HTTP_200_OK)
+        return Response({'message': 'Successfully Changed'},status=status.HTTP_200_OK)
+    # @action(methods=['POST'], url_path='change_password', detail=True)
+    # def change_password(self, request, pk=True):
+    #     password_serializer = serializers.PasswordSerializer(data=request.data)
+    #     pdb.set_trace()
+    #     if password_serializer.is_valid():
+    #         old_password = password_serializer.validated_data.get('old_password')
+    #         new_password = password_serializer.validated_data.get('new_password')
+    #
+    #         if request.user.check_password(old_password):
+    #             request.user.set_password(new_password)
+    #             request.user.save()
+    #             return Response({'message': 'Password changed successfully'}, status=status.HTTP_200_OK)
+    #         else:
+    #             return Response({'message': 'Old password is incorrect'}, status=status.HTTP_400_BAD_REQUEST)
+    #     else:
+    #         return Response(password_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     @action(methods=['post'], detail=False, url_path='posts')
     def add_posts(self, request):

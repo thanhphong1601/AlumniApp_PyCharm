@@ -24,7 +24,7 @@ SECRET_KEY = 'django-insecure-vd$9k&c+ib8xp2mbxnh2g1@e8f-_8n7u)%vwgkqn4li21)4)gs
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['192.168.1.6', '127.0.0.1', '10.0.2.2', '192.168.1.8']
+ALLOWED_HOSTS = ['192.168.1.6', '127.0.0.1', '10.0.2.2', '192.168.1.8', '192.168.1.9']
 
 # Application definition
 
@@ -180,9 +180,9 @@ environ.Env.read_env()
 import cloudinary
 
 cloudinary.config(
-    cloud_name="dstjar2iy",#env("CLOUDINARY_NAME"),
-    api_key="929341466922158", #env("CLOUDINARY_KEY"),
-    api_secret="ZydOWhhvZkUfCfoOIwuTYObfmbM" #env("CLOUDINARY_SECRET")
+    cloud_name="dstjar2iy",#.env("CLOUDINARY_NAME"),
+    api_key="929341466922158", #.env("CLOUDINARY_KEY"),
+    api_secret="ZydOWhhvZkUfCfoOIwuTYObfmbM" #.env("CLOUDINARY_SECRET")
 )
 
 # Email
@@ -194,9 +194,8 @@ EMAIL_HOST_USER = env("EMAIL_HOST_USER")
 EMAIL_HOST_PASSWORD = env("EMAIL_HOST_PASSWORD")
 
 PASSWORD_LECTURER_DEFAULT = env("PASSWORD_LECTURER_DEFAULT")
-
-CLIENT_ID = "qzY70fk6tTqAbaQGsjff7nywCwGQLsFvzrPoVXxq"   #env("CLIENT_ID")
-CLIENT_SECRET = "LAVcESiVijcurMyhze6Ev9gJw7qmBLFGw5hGvGACCOsad1EWohuFOSKta6I4aanrriZqjl6DkS282wfsIh3AVrcVXMgxCDa2govw4pDpacXd3QP4rC1zrJxRH3Cq7jYF"#env("CLIENT_SECRET")
+CLIENT_ID = env("CLIENT_ID") #"qzY70fk6tTqAbaQGsjff7nywCwGQLsFvzrPoVXxq"   #.env("CLIENT_ID")
+CLIENT_SECRET = env("CLIENT_SECRET") #"LAVcESiVijcurMyhze6Ev9gJw7qmBLFGw5hGvGACCOsad1EWohuFOSKta6I4aanrriZqjl6DkS282wfsIh3AVrcVXMgxCDa2govw4pDpacXd3QP4rC1zrJxRH3Cq7jYF"
 
 SITE_ID = 1
 SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = env('CLIENT_ID_GOOGLE')

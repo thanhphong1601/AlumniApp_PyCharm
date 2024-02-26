@@ -126,3 +126,4 @@ class Reaction(Interaction):
 
     class Meta:
         unique_together = ('user', 'post')
+
